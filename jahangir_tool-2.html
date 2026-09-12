@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jahangir Tool</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#f5f7fb;color:#18202a}
+header{background:#111827;color:white;padding:22px 16px;text-align:center}
+header h1{margin:0;font-size:28px}header p{margin:7px 0 0;color:#cbd5e1}
+.container{max-width:700px;margin:auto;padding:16px}
+.search{width:100%;padding:14px;border:1px solid #d1d5db;border-radius:12px;font-size:16px;margin-bottom:16px}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.card{background:white;border:1px solid #e5e7eb;border-radius:16px;padding:18px;text-align:center;cursor:pointer;box-shadow:0 2px 8px #0000000d}
+.card:hover{transform:translateY(-2px)}.icon{font-size:30px}.card h3{margin:9px 0 4px}.card p{margin:0;color:#6b7280;font-size:13px}
+.tool{display:none;background:white;padding:20px;border-radius:16px;margin-top:16px;border:1px solid #e5e7eb}
+.tool.active{display:block}.back{border:0;background:#e5e7eb;padding:9px 13px;border-radius:9px;margin-bottom:15px}
+input,textarea,select,button.action{width:100%;padding:12px;margin:7px 0;border:1px solid #d1d5db;border-radius:9px;font-size:16px}
+button.action{background:#111827;color:white;border:0;cursor:pointer}
+.result{background:#f1f5f9;padding:13px;border-radius:9px;margin-top:10px;word-break:break-word}
+footer{text-align:center;color:#6b7280;padding:25px}
+@media(max-width:420px){.grid{grid-template-columns:1fr 1fr}.card{padding:14px}}
+</style>
+</head>
+<body>
+<header><h1>🛠️ Jahangir Tool</h1><p>Simple & useful mobile tools</p></header>
+<div class="container">
+<input id="search" class="search" placeholder="🔍 Search tools..." oninput="filterTools()">
+<div id="home" class="grid">
+<div class="card" data-name="calculator" onclick="openTool('calculator')"><div class="icon">🔢</div><h3>Calculator</h3><p>Quick calculation</p></div>
+<div class="card" data-name="age calculator" onclick="openTool('age')"><div class="icon">🎂</div><h3>Age Calculator</h3><p>Calculate your age</p></div>
+<div class="card" data-name="percentage calculator" onclick="openTool('percent')"><div class="icon">📊</div><h3>Percentage</h3><p>Find percentages</p></div>
+<div class="card" data-name="unit converter" onclick="openTool('unit')"><div class="icon">📏</div><h3>Unit Converter</h3><p>Km, miles, kg & more</p></div>
+<div class="card" data-name="password generator" onclick="openTool('password')"><div class="icon">🔐</div><h3>Password</h3><p>Generate passwords</p></div>
+<div class="card" data-name="text case converter" onclick="openTool('case')"><div class="icon">📝</div><h3>Text Case</h3><p>Change text case</p></div>
+<div class="card" data-name="image compressor" onclick="openTool('compress')"><div class="icon">🖼️</div><h3>Image Compressor</h3><p>Reduce image size</p></div>
+<div class="card" data-name="image to pdf" onclick="openTool('pdf')"><div class="icon">📄</div><h3>Image to PDF</h3><p>Create a PDF</p></div>
+</div>
+
+<div id="calculator" class="tool"><button class="back" onclick="home()">← Back</button><h2>🔢 Calculator</h2><input id="calc" placeholder="Example: 25*4+10"><button class="action" onclick="calculate()">Calculate</button><div id="calcResult" class="result"></div></div>
+
+<div id="age" class="tool"><button class="back" onclick="home()">← Back</button><h2>🎂 Age Calculator</h2><input type="date" id="dob"><button class="action" onclick="ageCalc()">Calculate Age</button><div id="ageResult" class="result"></div></div>
+
+<div id="percent" class="tool"><button class="back" onclick="home()">← Back</button><h2>📊 Percentage</h2><input type="number" id="num" placeholder="Number"><input type="number" id="total" placeholder="Total"><button class="action" onclick="percentCalc()">Calculate</button><div id="percentResult" class="result"></div></div>
+
+<div id="unit" class="tool"><button class="back" onclick="home()">← Back</button><h2>📏 Unit Converter</h2><input type="number" id="unitVal" placeholder="Value"><select id="unitType"><option value="kmmi">Kilometers → Miles</option><option value="mikm">Miles → Kilometers</option><option value="kgp">Kilograms → Pounds</option><option value="pkg">Pounds → Kilograms</option></select><button class="action" onclick="convert()">Convert</button><div id="unitResult" class="result"></div></div>
+
+<div id="password" class="tool"><button class="back" onclick="home()">← Back</button><h2>🔐 Password Generator</h2><input type="number" id="passLen" value="12" min="4" max="50"><button class="action" onclick="genPass()">Generate</button><div id="passResult" class="result"></div></div>
+
+<div id="case" class="tool"><button class="back" onclick="home()">← Back</button><h2>📝 Text Case Converter</h2><textarea id="text" rows="6" placeholder="Write or paste text..."></textarea><button class="action" onclick="upper()">UPPERCASE</button><button class="action" onclick="lower()">lowercase</button><button class="action" onclick="titleCase()">Title Case</button></div>
+
+<div id="compress" class="tool"><button class="back" onclick="home()">← Back</button><h2>🖼️ Image Compressor</h2><input type="file" id="imgFile" accept="image/*"><button class="action" onclick="compressImage()">Compress Image</button><div id="compressResult" class="result"></div></div>
+
+<div id="pdf" class="tool"><button class="back" onclick="home()">← Back</button><h2>📄 Image to PDF</h2><p>Select an image. Your browser will prepare it for printing/saving as PDF.</p><input type="file" id="pdfImg" accept="image/*"><button class="action" onclick="imagePDF()">Prepare PDF</button><div id="pdfResult" class="result"></div></div>
+</div>
+<footer>© 2026 Jahangir Tool</footer>
+<script>
+function openTool(id){document.getElementById('home').style.display='none';document.querySelectorAll('.tool').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo(0,0)}
+function home(){document.querySelectorAll('.tool').forEach(x=>x.classList.remove('active'));document.getElementById('home').style.display='grid';window.scrollTo(0,0)}
+function filterTools(){let q=document.getElementById('search').value.toLowerCase();document.querySelectorAll('.card').forEach(c=>c.style.display=c.dataset.name.includes(q)?'block':'none')}
+function calculate(){try{let v=document.getElementById('calc').value;if(!/^[0-9+*/().% -]+$/.test(v))throw 0;document.getElementById('calcResult').textContent='Result: '+Function('return '+v)()}catch(e){document.getElementById('calcResult').textContent='Invalid calculation'}}
+function ageCalc(){let d=new Date(document.getElementById('dob').value),n=new Date();if(isNaN(d))return;let a=n.getFullYear()-d.getFullYear(),m=n.getMonth()-d.getMonth();if(m<0||(m===0&&n.getDate()<d.getDate()))a--;document.getElementById('ageResult').textContent='Your age is '+a+' years.'}
+function percentCalc(){let n=+document.getElementById('num').value,t=+document.getElementById('total').value;document.getElementById('percentResult').textContent=t?'Result: '+(n/t*100).toFixed(2)+'%':'Enter a valid total'}
+function convert(){let v=+document.getElementById('unitVal').value,t=document.getElementById('unitType').value,r=t==='kmmi'?v*.621371:t==='mikm'?v*1.60934:t==='kgp'?v*2.20462:v*.453592;document.getElementById('unitResult').textContent='Result: '+r.toFixed(4)}
+function genPass(){let n=Math.max(4,Math.min(50,+document.getElementById('passLen').value||12)),s='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*',p='';for(let i=0;i<n;i++)p+=s[Math.floor(Math.random()*s.length)];document.getElementById('passResult').textContent=p}
+function upper(){document.getElementById('text').value=document.getElementById('text').value.toUpperCase()}
+function lower(){document.getElementById('text').value=document.getElementById('text').value.toLowerCase()}
+function titleCase(){document.getElementById('text').value=document.getElementById('text').value.toLowerCase().replace(/\b\w/g,c=>c.toUpperCase())}
+function compressImage(){let f=document.getElementById('imgFile').files[0];if(!f)return;let r=new FileReader();r.onload=e=>{let im=new Image();im.onload=()=>{let c=document.createElement('canvas'),x=Math.min(1,1200/im.width);c.width=im.width*x;c.height=im.height*x;c.getContext('2d').drawImage(im,0,0,c.width,c.height);c.toBlob(b=>{let a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='compressed-image.jpg';a.textContent='Download compressed image';document.getElementById('compressResult').innerHTML='New size: '+Math.round(b.size/1024)+' KB<br>';document.getElementById('compressResult').appendChild(a)},'image/jpeg',.65)};im.src=e.target.result};r.readAsDataURL(f)}
+function imagePDF(){let f=document.getElementById('pdfImg').files[0];if(!f)return;document.getElementById('pdfResult').innerHTML='Image selected. Use your browser menu → Print → Save as PDF.'}
+</script>
+</body>
+</html>
